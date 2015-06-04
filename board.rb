@@ -1,7 +1,7 @@
 require 'byebug'
 class Board
 
-  attr_reader :board
+  attr_reader :board, :castling
 
   BOARD_SIZE = 8
   BACK_ROW = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
@@ -17,6 +17,12 @@ class Board
 
   def initialize
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
+    @castling = {
+      :black_king_side => true
+      :black_queen_side => true
+      :white_king_side => true
+      :white_queen_side => true
+    }
   end
 
   def set_pieces
@@ -40,7 +46,9 @@ class Board
     if !self[start_pos].valid_moves.include?(end_pos)
       raise InvalidMoveError.new("Can't move there.")
     end
-
+    if self[start_pos].class == Rook || self[start_pos].class == King
+      castle_toggle(start_pos)
+    end
     move!(start_pos, end_pos)
   end
 
@@ -117,10 +125,28 @@ class Board
     end
   end
 
-end
+  def toggle_castle(pos)
+    return nil if castling.all? { |k, v| v == false }
+    if pos.last == 0
+      castling[:black_queen_side] = false if pos.first == 0
+      castling[:white_queen_side] = false if pos.first == 7
+    elsif pos.last == 7
+      castling[:black_king_side] = false if pos.first == 0
+      castling[:white_king_side] = false if pos.first == 7
+    elsif pos.last == 4
+      if pos.first == 0
+        castling[:black_queen_side] = false
+        castling[:black_king_side] = false
+      elsif pos.first == 7
+        castling[:white_queen_side] = false
+        castling[:white_king_side] = false
+      end
+    end
 
 
-class NoPieceError < StandardError
+    nil
+  end
+
 end
 
 class InvalidMoveError < StandardError
