@@ -6,6 +6,10 @@ class Board
   BOARD_SIZE = 8
   BACK_ROW = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
   FRONT_ROW = [Pawn] * BOARD_SIZE
+  KING_START = 4
+  ROOK_START = [0,7]
+  BLACK_BACK_RANK = 0
+  WHITE_BACK_RANK = 7
 
   def self.create_new_board
     Board.new.set_pieces
@@ -18,9 +22,9 @@ class Board
   def initialize
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
     @castling = {
-      :black_king_side => true
-      :black_queen_side => true
-      :white_king_side => true
+      :black_king_side => true,
+      :black_queen_side => true,
+      :white_king_side => true,
       :white_queen_side => true
     }
   end
@@ -47,7 +51,7 @@ class Board
       raise InvalidMoveError.new("Can't move there.")
     end
     if self[start_pos].class == Rook || self[start_pos].class == King
-      castle_toggle(start_pos)
+      toggle_castle(start_pos)
     end
     move!(start_pos, end_pos)
   end
@@ -103,7 +107,13 @@ class Board
     dup_board
   end
 
+  def clear_castle_path?(color, side)
+    if color == :white
+  end
+
   private
+
+
 
   def pieces(color)
     board.flatten.compact.select do |piece|
@@ -127,17 +137,17 @@ class Board
 
   def toggle_castle(pos)
     return nil if castling.all? { |k, v| v == false }
-    if pos.last == 0
-      castling[:black_queen_side] = false if pos.first == 0
-      castling[:white_queen_side] = false if pos.first == 7
-    elsif pos.last == 7
-      castling[:black_king_side] = false if pos.first == 0
-      castling[:white_king_side] = false if pos.first == 7
-    elsif pos.last == 4
-      if pos.first == 0
+    if pos.last == ROOK_START[0]
+      castling[:black_queen_side] = false if pos.first == BLACK_BACK_RANK
+      castling[:white_queen_side] = false if pos.first == WHITE_BACK_RANK
+    elsif pos.last == ROOK_START[1]
+      castling[:black_king_side] = false if pos.first == BLACK_BACK_RANK
+      castling[:white_king_side] = false if pos.first == WHITE_BACK_RANK
+    elsif pos.last == KING_START
+      if pos.first == BLACK_BACK_RANK
         castling[:black_queen_side] = false
         castling[:black_king_side] = false
-      elsif pos.first == 7
+      elsif pos.first == WHITE_BACK_RANK
         castling[:white_queen_side] = false
         castling[:white_king_side] = false
       end
