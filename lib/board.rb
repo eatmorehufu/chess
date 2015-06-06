@@ -124,7 +124,7 @@ class Board
           return false if !self[[BLACK_BACK_RANK, file]].nil?
         end
       elsif side == :king
-        (KING_START + 1).upto(BOARD_SIZE - 1)) do |file|
+        (KING_START + 1).upto(BOARD_SIZE - 1) do |file|
           return false if !self[[BLACK_BACK_RANK, file]].nil?
         end
       end
@@ -133,7 +133,7 @@ class Board
     true
   end
 
-  private
+  #private
 
 
 
