@@ -109,6 +109,28 @@ class Board
 
   def clear_castle_path?(color, side)
     if color == :white
+      if side == :queen
+        1.upto(KING_START - 1) do |file|
+          return false if !self[[WHITE_BACK_RANK, file]].nil?
+        end
+      elsif side == :king
+        (KING_START + 1).upto(BOARD_SIZE - 1) do |file|
+          return false if !self[[WHITE_BACK_RANK, file]].nil?
+        end
+      end
+    elsif color == :black
+      if side == :queen
+        1.upto(KING_START - 1) do |file|
+          return false if !self[[BLACK_BACK_RANK, file]].nil?
+        end
+      elsif side == :king
+        (KING_START + 1).upto(BOARD_SIZE - 1)) do |file|
+          return false if !self[[BLACK_BACK_RANK, file]].nil?
+        end
+      end
+    end
+
+    true
   end
 
   private
