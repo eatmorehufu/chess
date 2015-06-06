@@ -189,6 +189,14 @@ class Board
 
   def castle(start_pos, end_pos)
     self[start_pos].move_to(end_pos)
+    row = start_pos.first
+    if end_pos.last < 4
+      self[[row, 0]].move_to([row, 2])
+    else
+      self[[row, 7]].move_to([row, 5])
+    end
+
+    nil
   end
 
 end
