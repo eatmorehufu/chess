@@ -19,9 +19,9 @@ class Board
     pos.all? { |coord| (0...BOARD_SIZE).include?(coord) }
   end
 
-  def initialize
+  def initialize(castling = nil)
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
-    @castling = {
+    @castling = castling || {
       :black => {:king_side => true, :queen_side => true},
       :white => {:king_side => true, :queen_side => true}
     }
@@ -93,7 +93,7 @@ class Board
   end
 
   def dup
-    dup_board = Board.new
+    dup_board = Board.new(@castling)
     BOARD_SIZE.times do |rank_index|
       BOARD_SIZE.times do |file_index|
         dup_pos = [rank_index, file_index]
