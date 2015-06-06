@@ -3,7 +3,7 @@ class Pawn < Piece
   TOP_PAWN_RANK = 1
   BOTTOM_PAWN_RANK = 6
 
-  attr_accessor :direction, :en_passant
+  attr_accessor :direction
 
   def initialize(board, color, pos)
     super
@@ -22,7 +22,6 @@ class Pawn < Piece
   def dup(dup_board)
     new_pawn = Pawn.new(dup_board, @color, @pos)
     new_pawn.direction = @direction
-    new_pawn.en_passant = @en_passant
 
     new_pawn
   end
@@ -83,7 +82,7 @@ class Pawn < Piece
   end
 
   def en_passant_coords
-    []
+    
   end
 
 end
