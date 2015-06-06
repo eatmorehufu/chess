@@ -1,23 +1,17 @@
 require 'requirements.rb'
 
 describe "King castling" do
+let(:board) { Board.create_new_board }
 
-  it "can castle on white queenside"
+  describe "#moves" do
 
-  it "can castle on white kingside"
+    it "adds the castling position kingside to moves if he can castle" do
+      board.move([1,6],[2,6])
+      board.move([0,6],[2,7])
+      board.move([0,5],[1,6])
+      expect(board[[0,4]].moves.include?([0,6])).to eq(true)
+    end
 
-  it "can castle on black queenside"
-
-  it "can castle on black kingside"
-
-  it "can't castle after it's been moved"
-
-  it "can't castle queenside after the queenside rook has moved"
-
-  it "can't castle kingside after the kingside rook has moved"
-
-  it "can still castle queenside after kingside rook has moved"
-
-  it "can still castle kingside after queenside rook has moved"
+  end
 
 end

@@ -9,39 +9,38 @@ let(:board) { Board.create_new_board }
     it "toggles black king side when given the right coordinates" do
       board.move([1,7], [3,7])
       board.move([0,7], [1,7])
-      expect(board.castling[:black_king_side]).to eq(false)
+      expect(board.castling[:black][:king_side]).to eq(false)
     end
 
 
     it "toggles black queen side when given the right coordinates" do
       board.move([1,0], [3,0])
       board.move([0,0], [1,0])
-      expect(board.castling[:black_queen_side]).to eq(false)
+      expect(board.castling[:black][:queen_side]).to eq(false)
     end
 
     it "toggles both black castling keys when given the right coordinates" do
       board.move([1,4], [3,4])
       board.move([0,4], [1,4])
-      expect(board.castling[:black_king_side]).to eq(false)
-      expect(board.castling[:black_queen_side]).to eq(false)
+      expect(board.castling[:black].any? { |k, v| v == true }).to eq(false)
     end
 
     it "toggles white king side when given the right coordinates" do
       board.move([6,7],[5,7])
       board.move([7,7],[6,7])
-      expect(board.castling[:white_king_side]).to eq(false)
+      expect(board.castling[:white][:king_side]).to eq(false)
     end
 
     it "toggles white queen side when given the right coordinates" do
       board.move([6,0],[5,0])
       board.move([7,0], [6,0])
-      expect(board.castling[:white_queen_side]).to eq(false)
+      expect(board.castling[:white][:queen_side]).to eq(false)
     end
     it "toggles both white castling keys when given the right coordinates" do
       board.move([6,4],[5,4])
       board.move([7,4], [6,4])
-      expect(board.castling[:white_king_side]).to eq(false)
-      expect(board.castling[:white_queen_side]).to eq(false)
+      expect(board.castling[:white].any? { |k, v| v == true }).to eq(false)
+
     end
 
   end

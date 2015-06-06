@@ -22,10 +22,8 @@ class Board
   def initialize
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
     @castling = {
-      :black_king_side => true,
-      :black_queen_side => true,
-      :white_king_side => true,
-      :white_queen_side => true
+      :black => {:king_side => true, :queen_side => true},
+      :white => {:king_side => true, :queen_side => true}
     }
   end
 
@@ -160,18 +158,18 @@ class Board
   def toggle_castle(pos)
     return nil if castling.all? { |k, v| v == false }
     if pos.last == ROOK_START[0]
-      castling[:black_queen_side] = false if pos.first == BLACK_BACK_RANK
-      castling[:white_queen_side] = false if pos.first == WHITE_BACK_RANK
+      castling[:black][:queen_side] = false if pos.first == BLACK_BACK_RANK
+      castling[:white][:queen_side] = false if pos.first == WHITE_BACK_RANK
     elsif pos.last == ROOK_START[1]
-      castling[:black_king_side] = false if pos.first == BLACK_BACK_RANK
-      castling[:white_king_side] = false if pos.first == WHITE_BACK_RANK
+      castling[:black][:king_side] = false if pos.first == BLACK_BACK_RANK
+      castling[:white][:king_side] = false if pos.first == WHITE_BACK_RANK
     elsif pos.last == KING_START
       if pos.first == BLACK_BACK_RANK
-        castling[:black_queen_side] = false
-        castling[:black_king_side] = false
+        castling[:black][:king_side] = false
+        castling[:black][:queen_side] = false
       elsif pos.first == WHITE_BACK_RANK
-        castling[:white_queen_side] = false
-        castling[:white_king_side] = false
+        castling[:white][:queen_side] = false
+        castling[:white][:king_side] = false
       end
     end
 
