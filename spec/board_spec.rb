@@ -88,7 +88,23 @@ let(:board) { Board.create_new_board }
     it "returns false on white queenside when the path is blocked" do
       expect(board.clear_castle_path?(:white, :queen)).to eq(false)
     end
+  end
 
+  describe "#is_castling?" do
+
+    it "returns true when king is trying to castle queenside"
+    it "returns true when king is trying to castle kingside"
+    it "returns false when king is not trying to castle"
 
   end
+
+  describe "#castle" do
+
+    it "moves the king to the kingside castle spot"
+    it "moves the king to the queenside castle spot"
+    it "moves the rook to the kingside castle spot"
+    it "moves the rook to the queenside castle spot"
+
+  end
+
 end

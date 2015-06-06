@@ -12,7 +12,7 @@ class Pawn < Piece
   end
 
   def moves
-    attackable_coords + marchable_coords
+    attackable_coords + marchable_coords + en_passant_coords
   end
 
   def inspect
@@ -80,6 +80,10 @@ class Pawn < Piece
 
   def find_direction(pos)
     pos.first == TOP_PAWN_RANK ? :down : :up
+  end
+
+  def en_passant_coords
+    []
   end
 
 end

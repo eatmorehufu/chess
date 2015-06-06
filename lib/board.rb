@@ -28,10 +28,10 @@ class Board
   end
 
   def set_pieces
-    fill_row(0, :black, BACK_ROW)
+    fill_row(BLACK_BACK_RANK, :black, BACK_ROW)
     fill_row(1, :black, FRONT_ROW)
     fill_row(6, :white, FRONT_ROW)
-    fill_row(7, :white, BACK_ROW)
+    fill_row(WHITE_BACK_RANK, :white, BACK_ROW)
 
     self
   end
@@ -56,8 +56,11 @@ class Board
 
   def move!(start_pos, end_pos)
     piece = self[start_pos]
-
-    piece.move_to(end_pos)
+    if is_castling?(start_pos, end_pos)
+      castle(start_pos, end_pos)
+    else
+      piece.move_to(end_pos)
+    end
   end
 
   def occupied?(pos)
