@@ -90,20 +90,34 @@ let(:board) { Board.create_new_board }
     end
   end
 
-  describe "#is_castling?" do
+  describe "#move when castling" do
 
-    it "returns true when king is trying to castle queenside"
-    it "returns true when king is trying to castle kingside"
-    it "returns false when king is not trying to castle"
-
-  end
-
-  describe "#castle" do
-
-    it "moves the king to the kingside castle spot"
-    it "moves the king to the queenside castle spot"
-    it "moves the rook to the kingside castle spot"
-    it "moves the rook to the queenside castle spot"
+    it "moves the king to the kingside castle spot" do
+      board[[7,5]] = nil
+      board[[7,6]] = nil
+      board.move([7,4], [7,6])
+      expect(board[[7,6]].class).to eq(King)
+    end
+    it "moves the king to the queenside castle spot" do
+      board[[7,1]] = nil
+      board[[7,2]] = nil
+      board[[7,3]] = nil
+      board.move([7,4], [7,1])
+      expect(board[[7,1]].class).to eq(King)
+    end
+    it "moves the rook to the kingside castle spot" do
+      board[[7,5]] = nil
+      board[[7,6]] = nil
+      board.move([7,4], [7,6])
+      expect(board[[7,5]].class).to eq(Rook)
+    end
+    it "moves the rook to the queenside castle spot" do
+      board[[7,1]] = nil
+      board[[7,2]] = nil
+      board[[7,3]] = nil
+      board.move([7,4], [7,1])
+      expect(board[[7,2]].class).to eq(Rook)
+    end
 
   end
 

@@ -180,6 +180,17 @@ class Board
     nil
   end
 
+  def is_castling?(start_pos, end_pos)
+    return false unless self[start_pos].class == King
+    return true if (start_pos.last - end_pos.last).abs > 1
+
+    false
+  end
+
+  def castle(start_pos, end_pos)
+    self[start_pos].move_to(end_pos)
+  end
+
 end
 
 class InvalidMoveError < StandardError
