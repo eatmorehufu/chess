@@ -165,9 +165,24 @@ let(:board) { Board.create_new_board }
 
 end
 
-describe "board draw conditions" do
-
-end
+# describe "board draw conditions" do
+# let(:board) { Board.new }
+# let!(:set_draws) {
+#   King.new(:board, :white, [7,4])
+#   King.new(:board, :black, [0,4])
+#   Knight.new(:board, :white, [0,0])
+#   Knight.new(:board, :white, [1,0])
+#   Bishop.new(:board, :white, [0,7])
+# }
+#   describe "#draw? recognizes automatic draw conditions" do
+#
+#     it "returns true if only 2 knights are left"
+#     it "returns true if only one knight is left"
+#     it "returns true if only one bishop is left"
+#
+#   end
+#
+# end
 
 describe "Pawn promotions" do
 let(:board) { Board.create_new_board }
