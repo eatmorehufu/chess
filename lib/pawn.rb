@@ -22,12 +22,6 @@ class Pawn < Piece
     new_pawn
   end
 
-  def can_promote?
-    opp_color = color == :white ? :black : :white
-    return false if pos.first != Board::BACK_RANK[opp_color]
-    true
-  end
-
   private
 
   def attackable_coords

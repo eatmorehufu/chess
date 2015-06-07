@@ -82,7 +82,6 @@ class Board
       piece.move_to(end_pos)
     end
 
-    piece.promote_if_able
   end
 
   def occupied?(pos)
@@ -144,9 +143,13 @@ class Board
     true
   end
 
+  def can_promote?(pos)
+    opp_color = self[pos].color == :white ? :black : :white
+    return false if pos.first != BACK_RANK[opp_color]
+    true
+  end
+
   private
-
-
 
   def pieces(color)
     board.flatten.compact.select do |piece|

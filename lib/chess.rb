@@ -37,16 +37,18 @@ class Game
   end
 
   def play
-    white = HumanPlayer.new(:white, board)
-    black = HumanPlayer.new(:black, board)
     draw_board
-
+    human = HumanPlayer.new
     loop do
       begin
         puts "#{turn.to_s.capitalize}'s turn"
-        input = turn == :white ? white.play_turn : black.play_turn
+        input = human.play_turn
         error_check(input)
         board.move(*input)
+        if board.can_promote?(input.last)
+          promotion = human.get_promotion_choice
+          board.make_promotion(promotion)
+        end
         draw_board
 
         @turn = turn == :white ? :black : :white

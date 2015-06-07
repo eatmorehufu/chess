@@ -1,8 +1,7 @@
 class HumanPlayer
 
 
-  def initialize(color, board)
-    @color = color
+  def initialize
   end
 
   def play_turn
@@ -17,14 +16,14 @@ class HumanPlayer
     end_pos = Game::CHESS_NOTATION[input[3..4]]
 
     [start_pos, end_pos]
-    
+
   rescue InvalidSelectionError => error
     puts error.message
     retry
 
   end
 
-  private
+private
 
   def invalid_input?(input)
     !/\A[A-H][1-8]-[A-H][1-8]\z/.match(input)
