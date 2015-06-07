@@ -1,6 +1,6 @@
 class HumanPlayer
 
-
+PROMOTIONS = %w(queen knight bishop rook)
   def initialize
   end
 
@@ -21,6 +21,19 @@ class HumanPlayer
     puts error.message
     retry
 
+  end
+
+  def get_promotion_choice
+    puts "Promote your pawn! What would you like it to become? (e.g. queen)"
+    input = gets.chomp.downcase
+    unless PROMOTIONS.include?(input)
+      raise InvalidSelectionError.new("Not a valid promotion choice.")
+    end
+
+    input.capitalize
+  rescue InvalidSelectionError => error
+    puts error.message
+    retry
   end
 
 private
