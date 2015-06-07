@@ -168,3 +168,46 @@ end
 describe "board draw conditions" do
 
 end
+
+describe "Pawn promotions" do
+let(:board) { Board.create_new_board }
+let!(:pawn_board) do
+  board.move([6,0],[4,0])
+  board.move([4,0],[3,0])
+  board.move([3,0],[2,0])
+  board.move([2,0],[1,1])
+end
+
+  describe "#can_promote?" do
+
+    it "returns true if a pawn has hit the back line" do
+      board.move([1,1], [0,0])
+      expect(board.can_promote?([0,0])).to eq(true)
+    end
+    it "returns false if a pawn has not hit the back line" do
+      expect(board.can_promote?([1,1])).to eq(false)
+    end
+
+    it "returns false if asked about a non-pawn unit" do
+      board.move([7,0],[1,0])
+      board.move([1,0],[0,0])
+      expect(board.can_promote?([0,0])).to eq(false)
+    end
+
+  end
+
+  describe "#make_promotion makes promotions" do
+
+    it "can make a pawn a knight" do
+      board.make_promotion(Knight, [1,1])
+      expect(board[[1,1]].class).to eq(Knight)
+    end
+
+    it "can make a pawn a queen" do
+      board.make_promotion(Queen, [1,1])
+      expect(board[[1,1]].class).to eq(Queen)
+    end
+
+  end
+
+end

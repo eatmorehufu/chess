@@ -47,7 +47,7 @@ class Game
         board.move(*input)
         if board.can_promote?(input.last)
           promotion = human.get_promotion_choice
-          board.make_promotion(promotion)
+          board.make_promotion(promotion, input.last)
         end
         draw_board
 

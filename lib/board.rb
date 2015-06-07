@@ -144,14 +144,21 @@ class Board
   end
 
   def can_promote?(pos)
+    return false if self[pos].class != Pawn
     opp_color = self[pos].color == :white ? :black : :white
     return false if pos.first != BACK_RANK[opp_color]
     true
   end
 
+  def make_promotion(promote, pos)
+    color = self[pos].color
+    self[pos] = promote.new(self, color, pos)
+  end
+
   private
 
-  def pieces(color)
+  def pieces(color = nil)
+    return board.flatten.compact if color == nil
     board.flatten.compact.select do |piece|
       piece.color == color
     end

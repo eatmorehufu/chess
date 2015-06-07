@@ -30,7 +30,7 @@ PROMOTIONS = %w(queen knight bishop rook)
       raise InvalidSelectionError.new("Not a valid promotion choice.")
     end
 
-    input.capitalize
+    Kernel.const_get(input.capitalize)
   rescue InvalidSelectionError => error
     puts error.message
     retry
