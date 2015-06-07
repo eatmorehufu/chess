@@ -1,7 +1,7 @@
 require 'byebug'
 class Board
 
-  attr_reader :board, :castling
+  attr_reader :board, :castling, :en_passant
 
   BOARD_SIZE = 8
   BACK_ROW = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
@@ -19,12 +19,13 @@ class Board
     pos.all? { |coord| (0...BOARD_SIZE).include?(coord) }
   end
 
-  def initialize(castling = nil)
+  def initialize(castling = nil, en_passant = [])
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
     @castling = castling || {
       :black => {:king_side => true, :queen_side => true},
       :white => {:king_side => true, :queen_side => true}
     }
+    @en_passant = en_passant
   end
 
   def set_pieces

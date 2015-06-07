@@ -1,4 +1,5 @@
 require 'requirements'
+require 'byebug'
 
 describe "Board castling conditions" do
 
@@ -92,29 +93,27 @@ let(:board) { Board.create_new_board }
 
   describe "#move when castling" do
 
-    it "moves the king to the kingside castle spot" do
+    let!(:castle_board) do
       board[[7,5]] = nil
       board[[7,6]] = nil
+      board[[7,1]] = nil
+      board[[7,2]] = nil
+      board[[7,3]] = nil
+    end
+
+    it "moves the king to the kingside castle spot" do
       board.move([7,4], [7,6])
       expect(board[[7,6]].class).to eq(King)
     end
     it "moves the king to the queenside castle spot" do
-      board[[7,1]] = nil
-      board[[7,2]] = nil
-      board[[7,3]] = nil
       board.move([7,4], [7,1])
       expect(board[[7,1]].class).to eq(King)
     end
     it "moves the rook to the kingside castle spot" do
-      board[[7,5]] = nil
-      board[[7,6]] = nil
       board.move([7,4], [7,6])
       expect(board[[7,5]].class).to eq(Rook)
     end
     it "moves the rook to the queenside castle spot" do
-      board[[7,1]] = nil
-      board[[7,2]] = nil
-      board[[7,3]] = nil
       board.move([7,4], [7,1])
       expect(board[[7,2]].class).to eq(Rook)
     end
@@ -123,8 +122,21 @@ let(:board) { Board.create_new_board }
 
   describe "#move when en-passanting" do
 
-    it "lets the pawn move into the en-passant space"
-    it "captures the en-passanted pawn"
+    it "lets the pawn move into the en-passant space" do
+      board.move([1,1], [3,1])
+      board.move([3,1], [4,1])
+      board.move([6,2], [4,2])
+      board.move([4,1], [3,2])
+      expect(board[[3,2]].class).to eq(Pawn)
+    end
+
+    it "captures the en-passanted pawn" do
+      board.move([1,1], [3,1])
+      board.move([3,1], [4,1])
+      board.move([6,2], [4,2])
+      board.move([4,1], [3,2])
+      expect(board[[3,2]].class).to eq(Pawn)
+    end
 
   end
 

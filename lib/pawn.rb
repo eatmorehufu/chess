@@ -82,7 +82,7 @@ class Pawn < Piece
   end
 
   def en_passant_coords
-    
+    []
   end
 
 end

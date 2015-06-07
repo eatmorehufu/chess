@@ -5,8 +5,9 @@ class King < SteppingPiece
 
     if board.castling[color][:king_side] == true &&
       board.clear_castle_path?(color, :king)
-      default_deltas << [0,2]
-    elsif board.castling[color][:queen_side] == true &&
+      default_deltas << [0, 2]
+    end
+    if board.castling[color][:queen_side] == true &&
       board.clear_castle_path?(color, :queen)
       default_deltas << [0,-3]
     end
