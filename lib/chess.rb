@@ -14,21 +14,21 @@ class Game
   CHESS_NOTATION = self.notation_lookup
 
   WHITE_PIECES = {
-    King => "♔",
-    Queen => "♕",
-    Rook => "♖",
-    Bishop => "♗",
-    Knight => "♘",
-    Pawn => "♙"
+    King => " ♔",
+    Queen => " ♕",
+    Rook => " ♖",
+    Bishop => " ♗",
+    Knight => " ♘",
+    Pawn => " ♙"
   }
 
   BLACK_PIECES = {
-    King => "♚",
-    Queen => "♛",
-    Rook => "♜",
-    Bishop => "♝",
-    Knight => "♞",
-    Pawn => "♟"
+    King => "♚ ",
+    Queen => "♛ ",
+    Rook => "♜ ",
+    Bishop => "♝ ",
+    Knight => "♞ ",
+    Pawn => "♟ "
   }
 
   def initialize
@@ -76,11 +76,11 @@ class Game
   SIDE_FRAME = ("1".."8").to_a.reverse
 
   def draw_board
-    puts " #{TOP_FRAME.join} "
+    puts " #{TOP_FRAME.join(" ")} "
     Board::BOARD_SIZE.times do |rank|
       print_line(rank)
     end
-    puts " #{TOP_FRAME.join} "
+    puts " #{TOP_FRAME.join(" ")} "
   end
 
   def print_line(rank)
@@ -89,7 +89,7 @@ class Game
     Board::BOARD_SIZE.times do |file|
       tile = board[[rank, file]]
       if tile.nil?
-        print_with_background(" ", rank, file)
+        print_with_background("  ", rank, file)
       elsif tile.color == :white
         print_with_background(WHITE_PIECES[tile.class], rank, file)
       else
