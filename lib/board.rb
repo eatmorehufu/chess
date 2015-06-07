@@ -53,15 +53,21 @@ class Board
       toggle_castle(start_pos)
     end
     move!(start_pos, end_pos)
+    en_passant_toggle(start_pos, end_pos)
+
   end
 
   def move!(start_pos, end_pos)
     piece = self[start_pos]
+
     if is_castling?(start_pos, end_pos)
       castle(start_pos, end_pos)
+    elsif is_en_passanting?(start_pos, end_pos)
+      do_en_passant(start_pos, end_pos)
     else
       piece.move_to(end_pos)
     end
+
   end
 
   def occupied?(pos)
@@ -198,6 +204,28 @@ class Board
     end
 
     nil
+  end
+
+  def en_passant_toggle(start_pos, end_pos)
+    if (self[end_pos].class == Pawn &&
+      (start_pos.first - end_pos.first).abs > 1)
+      en_passant_row = (start_pos.first + end_pos.first) / 2
+      @en_passant = [en_passant_row, end_pos.last]
+    else
+      @en_passant = []
+    end
+  end
+
+  def is_en_passanting?(start_pos, end_pos)
+    return true if end_pos == @en_passant
+    false
+  end
+
+  def do_en_passant(start_pos, end_pos)
+    self[start_pos].move_to(end_pos)
+    taken_file = end_pos.last
+    taken_rank = start_pos.first
+    self[[taken_rank, taken_file]] = nil
   end
 
 end

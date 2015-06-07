@@ -8,7 +8,6 @@ class Pawn < Piece
   def initialize(board, color, pos)
     super
     @direction = find_direction(pos)
-    @en_passant = false
   end
 
   def moves
@@ -82,7 +81,8 @@ class Pawn < Piece
   end
 
   def en_passant_coords
-    []
+    return [] if @board.en_passant == []
+    [@board.en_passant]
   end
 
 end

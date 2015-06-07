@@ -126,15 +126,15 @@ let(:board) { Board.create_new_board }
       board.move([1,1], [3,1])
       board.move([3,1], [4,1])
       board.move([6,2], [4,2])
+      board.move([4,1], [5,2])
     end
 
     it "lets the pawn move into the en-passant space" do
-      board.move([4,1], [5,2])
-      expect(board[[3,2]].class).to eq(Pawn)
+      expect(board[[5,2]].class).to eq(Pawn)
     end
 
     it "captures the en-passanted pawn" do
-      expect(board[[3,2]].class).to eq(Pawn)
+      expect(board[[4,2]].class).to_not eq(Pawn)
     end
 
   end
@@ -142,19 +142,20 @@ let(:board) { Board.create_new_board }
   describe "board@en_passant" do
 
   let!(:en_pas_move) { board.move([6,2], [4,2]) }
-  
+
     it "marks the last pawn to move as the en_passant pawn" do
-      expect(board.en_passant).to eq([4,2])
+      expect(board.en_passant).to eq([5,2])
     end
 
     it "removes the pawn from en_passant after the next turn" do
+      allow(board).to receive(:in_check?).and_return(false)
       board.move([4,2], [3,2])
       expect(board.en_passant).to eq([])
     end
 
     it "replaces the pawn if next move is en_passantable pawn" do
       board.move([1,1], [3,1])
-      expect(board.en_passant). to eq([3,1])
+      expect(board.en_passant). to eq([2,1])
     end
 
   end
