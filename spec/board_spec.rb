@@ -121,4 +121,11 @@ let(:board) { Board.create_new_board }
 
   end
 
+  describe "#move when en-passanting" do
+
+    it "lets the pawn move into the en-passant space"
+    it "captures the en-passanted pawn"
+
+  end
+
 end
