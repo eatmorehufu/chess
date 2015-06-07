@@ -4,17 +4,24 @@ class Board
   attr_reader :board, :castling, :en_passant
 
   BOARD_SIZE = 8
-  BACK_ROW = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
-  FRONT_ROW = [Pawn] * BOARD_SIZE
+
+  BACK_ROW_PIECES = [
+    Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook
+  ]
+
+  FRONT_ROW_PIECES = [Pawn] * BOARD_SIZE
   KING_START = 4
+
   ROOK_START = {
     :left => 0,
     :right => 7
   }
+
   BACK_RANK = {
     :white => 7,
     :black => 0
   }
+
   FRONT_RANK = {
     :white => 6,
     :black => 1
@@ -28,7 +35,7 @@ class Board
     pos.all? { |coord| (0...BOARD_SIZE).include?(coord) }
   end
 
-  def initialize(castling = nil, en_passant = [])
+  def initialize(castling = nil, en_passant = nil)
     @board = Array.new(BOARD_SIZE) { Array.new(BOARD_SIZE) }
     @castling = castling || {
       :black => {:king_side => true, :queen_side => true},
@@ -39,8 +46,8 @@ class Board
 
   def set_pieces
     [:white, :black].each do |color|
-      fill_row(BACK_RANK[color], color, BACK_ROW)
-      fill_row(FRONT_RANK[color], color, FRONT_ROW)
+      fill_row(BACK_RANK[color], color, BACK_ROW_PIECES)
+      fill_row(FRONT_RANK[color], color, FRONT_ROW_PIECES)
     end
     self
   end
@@ -62,7 +69,6 @@ class Board
     end
     move!(start_pos, end_pos)
     en_passant_toggle(start_pos, end_pos)
-
   end
 
   def move!(start_pos, end_pos)
@@ -76,6 +82,7 @@ class Board
       piece.move_to(end_pos)
     end
 
+    piece.promote_if_able
   end
 
   def occupied?(pos)
@@ -203,7 +210,7 @@ class Board
       en_passant_row = (start_pos.first + end_pos.first) / 2
       @en_passant = [en_passant_row, end_pos.last]
     else
-      @en_passant = []
+      @en_passant = nil
     end
   end
 

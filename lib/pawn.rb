@@ -1,13 +1,11 @@
 require 'byebug'
 class Pawn < Piece
-  TOP_PAWN_RANK = 1
-  BOTTOM_PAWN_RANK = 6
 
   attr_accessor :direction
 
   def initialize(board, color, pos)
     super
-    @direction = find_direction(pos)
+    @direction = color == :white ? :up : :down
   end
 
   def moves
@@ -20,9 +18,14 @@ class Pawn < Piece
 
   def dup(dup_board)
     new_pawn = Pawn.new(dup_board, @color, @pos)
-    new_pawn.direction = @direction
 
     new_pawn
+  end
+
+  def can_promote?
+    opp_color = color == :white ? :black : :white
+    return false if pos.first != Board::BACK_RANK[opp_color]
+    true
   end
 
   private
@@ -48,8 +51,7 @@ class Pawn < Piece
   def marchable_coords
     marchable = []
 
-    steps = @pos[0] == TOP_PAWN_RANK ||
-      @pos[0] == BOTTOM_PAWN_RANK ? 2 : 1
+    steps = Board::FRONT_RANK.values.include?(@pos[0]) ? 2 : 1
 
     steps.times do |step|
       test_coord = [
@@ -76,12 +78,8 @@ class Pawn < Piece
     end
   end
 
-  def find_direction(pos)
-    pos.first == TOP_PAWN_RANK ? :down : :up
-  end
-
   def en_passant_coords
-    return [] if @board.en_passant == []
+    return [] if @board.en_passant == nil
     [@board.en_passant]
   end
 

@@ -23,4 +23,12 @@ describe "Pawn" do
     end
   end
 
+  describe "promotes when pawn reaches the end of the board" do
+
+    it "asks the user for a selection when at the end of the board"
+    it "promotes the pawn to a queen"
+    it "promotes the pawn a knight"
+
+  end
+
 end

@@ -119,6 +119,10 @@ let(:board) { Board.create_new_board }
     end
 
   end
+end
+
+describe "Board en_passant conditions" do
+let(:board) { Board.create_new_board }
 
   describe "#move when en-passanting" do
 
@@ -148,9 +152,8 @@ let(:board) { Board.create_new_board }
     end
 
     it "removes the pawn from en_passant after the next turn" do
-      allow(board).to receive(:in_check?).and_return(false)
       board.move([4,2], [3,2])
-      expect(board.en_passant).to eq([])
+      expect(board.en_passant).to eq(nil)
     end
 
     it "replaces the pawn if next move is en_passantable pawn" do
@@ -159,5 +162,9 @@ let(:board) { Board.create_new_board }
     end
 
   end
+
+end
+
+describe "board draw conditions" do
 
 end

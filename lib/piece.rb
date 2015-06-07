@@ -35,4 +35,8 @@ attr_reader :color, :pos, :board
     moves.select { |move| !move_into_check?(move) }
   end
 
+  def can_promote?
+    false
+  end
+
 end
