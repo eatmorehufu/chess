@@ -7,9 +7,18 @@ class Board
   BACK_ROW = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
   FRONT_ROW = [Pawn] * BOARD_SIZE
   KING_START = 4
-  ROOK_START = [0,7]
-  BLACK_BACK_RANK = 0
-  WHITE_BACK_RANK = 7
+  ROOK_START = {
+    :left => 0,
+    :right => 7
+  }
+  BACK_RANK = {
+    :white => 7,
+    :black => 0
+  }
+  FRONT_RANK = {
+    :white => 6,
+    :black => 1
+  }
 
   def self.create_new_board
     Board.new.set_pieces
@@ -29,11 +38,10 @@ class Board
   end
 
   def set_pieces
-    fill_row(BLACK_BACK_RANK, :black, BACK_ROW)
-    fill_row(1, :black, FRONT_ROW)
-    fill_row(6, :white, FRONT_ROW)
-    fill_row(WHITE_BACK_RANK, :white, BACK_ROW)
-
+    [:white, :black].each do |color|
+      fill_row(BACK_RANK[color], color, BACK_ROW)
+      fill_row(FRONT_RANK[color], color, FRONT_ROW)
+    end
     self
   end
 
@@ -98,7 +106,7 @@ class Board
     in_check?(color) && no_valid_moves?(color)
   end
 
-  def draw?(color)
+  def stalemate?(color)
     !in_check?(color) && no_valid_moves?(color)
   end
 
@@ -116,27 +124,15 @@ class Board
   end
 
   def clear_castle_path?(color, side)
-    if color == :white
       if side == :queen
         1.upto(KING_START - 1) do |file|
-          return false if !self[[WHITE_BACK_RANK, file]].nil?
+          return false if !self[[BACK_RANK[color], file]].nil?
         end
       elsif side == :king
         (KING_START + 1).upto(BOARD_SIZE - 2) do |file|
-          return false if !self[[WHITE_BACK_RANK, file]].nil?
+          return false if !self[[BACK_RANK[color], file]].nil?
         end
       end
-    elsif color == :black
-      if side == :queen
-        1.upto(KING_START - 1) do |file|
-          return false if !self[[BLACK_BACK_RANK, file]].nil?
-        end
-      elsif side == :king
-        (KING_START + 1).upto(BOARD_SIZE - 2) do |file|
-          return false if !self[[BLACK_BACK_RANK, file]].nil?
-        end
-      end
-    end
 
     true
   end
@@ -167,19 +163,14 @@ class Board
 
   def toggle_castle(pos)
     return nil if castling.all? { |k, v| v == false }
-    if pos.last == ROOK_START[0]
-      castling[:black][:queen_side] = false if pos.first == BLACK_BACK_RANK
-      castling[:white][:queen_side] = false if pos.first == WHITE_BACK_RANK
-    elsif pos.last == ROOK_START[1]
-      castling[:black][:king_side] = false if pos.first == BLACK_BACK_RANK
-      castling[:white][:king_side] = false if pos.first == WHITE_BACK_RANK
-    elsif pos.last == KING_START
-      if pos.first == BLACK_BACK_RANK
-        castling[:black][:king_side] = false
-        castling[:black][:queen_side] = false
-      elsif pos.first == WHITE_BACK_RANK
-        castling[:white][:queen_side] = false
-        castling[:white][:king_side] = false
+    [:black, :white].each do |color|
+      if pos.last == ROOK_START[:left]
+        castling[color][:queen_side] = false if pos.first == BACK_RANK[color]
+      elsif pos.last == ROOK_START[:right]
+        castling[color][:king_side] = false if pos.first == BACK_RANK[color]
+      elsif pos.last == KING_START
+          castling[color][:king_side] = false
+          castling[color][:queen_side] = false
       end
     end
 

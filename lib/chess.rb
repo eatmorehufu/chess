@@ -51,15 +51,15 @@ class Game
 
         @turn = turn == :white ? :black : :white
 
-        break if board.check_mate?(turn) || board.draw?(turn)
+        break if board.check_mate?(turn) || board.stalemate?(turn)
 
       rescue InvalidMoveError => err
         puts err.message
         retry
       end
     end
-    if board.draw?(turn)
-      puts "It's a draw!"
+    if board.stalemate?(turn)
+      puts "It's a stalemate!"
     else
       puts turn == :black ? "White wins!" : "Black wins!"
     end
@@ -114,7 +114,7 @@ class Game
     elsif piece.color != turn
       raise InvalidMoveError.new("Not your piece to move.")
     end
-    
+
     nil
   end
 
