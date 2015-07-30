@@ -1,3 +1,6 @@
+#!/usr/bin/env ruby
+
+require './lib/requirements.rb'
 class Game
 
   def self.notation_lookup
@@ -120,5 +123,8 @@ class Game
     nil
   end
 
+end
 
+if $PROGRAM_NAME == __FILE__
+  Game.new.play
 end

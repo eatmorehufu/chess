@@ -1,4 +1,3 @@
-require 'byebug'
 class Pawn < Piece
 
   attr_accessor :direction

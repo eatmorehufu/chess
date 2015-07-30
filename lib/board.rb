@@ -1,4 +1,3 @@
-require 'byebug'
 class Board
 
   attr_reader :board, :castling, :en_passant

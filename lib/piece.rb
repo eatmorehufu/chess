@@ -1,5 +1,3 @@
-require 'byebug'
-
 class Piece
 
 attr_reader :color, :pos, :board

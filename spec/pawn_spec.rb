@@ -1,5 +1,3 @@
-require 'requirements'
-
 describe "Pawn" do
 
   let(:board) { Board.create_new_board }

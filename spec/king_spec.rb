@@ -1,4 +1,4 @@
-require 'requirements.rb'
+require 'requirements'
 
 describe "King castling" do
 let(:board) { Board.create_new_board }

@@ -1,5 +1,4 @@
 require 'requirements'
-require 'byebug'
 
 describe "Board castling conditions" do
 
