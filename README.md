@@ -8,6 +8,10 @@ game involved using a series of algorithms to check the validity of potential
 moves. There is a multi-level class inheritance structure to DRYly enable
 piece movement.
 
+## How To Play
+Download the repo. In the chess folder, run `./lib/chess.rb`. You may have to
+`chmod +x ./lib/chess.rb` first to make it executable.
+
 ## Features
 - Validates full range of chess movement, including en passant
 - Chess coordinate notation for ease of input
@@ -20,4 +24,4 @@ piece movement.
 - Browser based GUI
 
 ## Credits
-© Dean Hu 2015. 
+© Dean Hu 2015.
